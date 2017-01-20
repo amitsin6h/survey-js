@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lan="eng">
+<head>
+<title>Survey JSON</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="surveyjs/survey.jquery.min.js"></script>
+<script src="surveyjs/survey.jquery.js"></script>
+ <link href="css/bootstrap.min.css" rel="stylesheet">
+ <script src="js/bootstrap.min.js"></script>
+</head>
+
+
+
+
+  <script>
+
+
+$(document).ready(function(){
+Survey.Survey.cssType = "bootstrap";
+var survey = new Survey.Model( { questions: [
+     {name:"name", type:"text", title: "Please enter your name:", isRequired: true},
+     {name:"birthdate", type:"text", inputType:"date", title: "Your birthdate:", isRequired: true},
+     {name:"color", type:"text", inputType:"color", title: "Your favorite color:"},
+     {name:"email", type:"text", inputType:"email", title: "Your e-mail:", isRequired: true, validators: [{type:"email"}]}
+]});
+
+var myCss = {
+        matrix: {root: "table"},
+        navigationButton: "btn btn-success"   
+   };
+window.survey = survey;
+survey.showProgressBar = "bottom";
+$("#surveyContainer").Survey({
+    model: survey,
+    css: myCss,
+	onComplete:sendDataToServer
+});
+
+function sendDataToServer(survey) {
+  var resultAsString = JSON.stringify(survey.data);
+  alert(resultAsString); //send Ajax request to your web server.
+}
+
+});
+
+
+</script>
+ 
+
+
+<body>
+
+<div id="surveyContainer"></div>
+
+
+</body>
+
+</html>
